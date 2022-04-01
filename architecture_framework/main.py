@@ -1,5 +1,7 @@
 """main"""
 from views import NotFound404
+import quopri
+from requests import PostRequests
 
 
 class Architecture:
@@ -17,6 +19,17 @@ class Architecture:
         if not path.endswith('/'):
             path = f'{path}/'
 
+        request = {}
+        # Получаем все данные запроса
+        method = environ['REQUEST_METHOD']
+        request['method'] = method
+
+        # если приходит POST запрос
+        if method == 'POST':
+            data = PostRequests().get_request_params(environ)
+            request['data'] = data
+            print(f'Нам пришёл post-запрос: {Architecture.decode_value(data)}')
+
         # находим нужный контроллер
         # отработка паттерна page controller
         if path in self.routes:
@@ -33,3 +46,12 @@ class Architecture:
         code, body = view(request)
         start_response(code, [('Content-Type', 'text/html')])
         return [body.encode('utf-8')]
+
+    @staticmethod
+    def decode_value(data):
+        new_data = {}
+        for k, v in data.items():
+            val = bytes(v.replace('%', '=').replace("+", " "), 'UTF-8')
+            val_decode_str = quopri.decodestring(val).decode('UTF-8')
+            new_data[k] = val_decode_str
+        return new_data
