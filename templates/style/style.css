@@ -30,7 +30,7 @@
 .top__info {
     padding-top: 115px;
     flex-grow: 1;
-    background-image: url(/img/top_info.jpg);
+    background-image: url(/templates/img/top_info.jpg);
     background-repeat: no-repeat;
     background-position: right center;
     background-size: 44%;
