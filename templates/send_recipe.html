@@ -1,74 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Твой рецепт</title>
-    <style class="text/css">
-        .guruweba_example_form {
-            width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+{% extends "base.html" %}
+{% block title %}
+Твой Рецепт
+{% endblock %}
+{% block style %}
+{% include "inc_style.html" %}
+{% endblock %}
 
-        .guruweba_example_caption {
-            font-size: 24px;
-            text-align: center;
-        }
-
-        .guruweba_example_form .guruweba_example_infofield {
-            margin-top: 10px;
-            font-weight: bold;
-        }
-
-        .guruweba_example_form select, .guruweba_example_form input, .guruweba_example_form textarea {
-            width: 90%;
-            margin: 5px 0;
-            padding: 5px 15px;
-        }
-
-                * {
-            font-family: sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 1140px;
-            margin: 0 auto;
-        }
-
-                .top__block {
-            min-height: 100px;
-            background: linear-gradient(0deg, #EBF3FB 8.84%, rgba(152, 195, 232, 0) 31.12%);
-        }
-
-        .top__box {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-                .menu {
-            list-style-type: none;
-            display: flex;
-            justify-content: space-between;
-            padding-top: 42px;
-        }
-    </style>
-</head>
-<body>
-<div class="top__block">
+{% block menu %}
+<div class="top__block__menu">
     <div class="container top__box">
-        <ul class="menu">
-            <li><a href="/">Главная</a></li>
-            <li><a href="#">Рецепты</a></li>
-            <li><a href="#">Продукты</a></li>
-            <li><a href="#">Спорт</a></li>
-            <li><a href="#">Доставка</a></li>
-        </ul>
+        {% include "inc_menu.html" %}
     </div>
 </div>
+{% endblock %}
+
+
+{% block body %}
 <form class="guruweba_example_form" action="" method="post">
     <fieldset class="guruweba_example_caption">
         <legend class="guruweba_example_infofield">Отправить рецепт</legend>
@@ -96,5 +43,4 @@
     </fieldset>
     <div class="submit"><input type="submit" value="Отпрваить"/></div>
 </form>
-</body>
-</html>
+{% endblock %}
