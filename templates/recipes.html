@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}
+Рецепты
+{% endblock %}
+{% block style %}
+{% include "inc_style.html" %}
+{% endblock %}
+
+{% block menu %}
+<div class="top__block__menu">
+    <div class="container top__box">
+        {% include "inc_menu.html" %}
+    </div>
+</div>
+{% endblock %}
+
+
+{% block body %}
+<div>
+    <a href="/create_category/">Создать новую категорию</a>
+</div>
+<div>
+    <h1>Список существующих категорий</h1>
+    {% for item in objects_list %}
+    <li>
+        {{item.name}} <span>Количество блюд: {{item.dish_count()}}</span>
+        <a href="/dishes_list/?id={{item.id}}">Показать Блюда</a>
+    </li>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,7 +1,7 @@
 """main"""
 from views import NotFound404
 import quopri
-from requests import PostRequests
+from requests import PostRequests, GetRequests
 
 
 class Architecture:
@@ -29,6 +29,10 @@ class Architecture:
             data = PostRequests().get_request_params(environ)
             request['data'] = data
             print(f'Нам пришёл post-запрос: {Architecture.decode_value(data)}')
+        if method == 'GET':
+            request_params = GetRequests().get_request_params(environ)
+            request['request_params'] = request_params
+            print(f'Нам пришли GET-параметры: {request_params}')
 
         # находим нужный контроллер
         # отработка паттерна page controller

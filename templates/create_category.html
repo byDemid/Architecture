@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}
+Создание блюда
+{% endblock %}
+{% block style %}
+{% include "inc_style.html" %}
+{% endblock %}
+
+{% block menu %}
+<div class="top__block__menu">
+    <div class="container top__box">
+        {% include "inc_menu.html" %}
+    </div>
+</div>
+{% endblock %}
+
+
+{% block body %}
+<h1>Создание категории</h1>
+<form method="post">
+    <input type="text" name="name" placeholder="Название">
+    <button type="submit">Сохранить и вернуться к рецептам</button>
+</form>
+{% endblock %}

@@ -41,3 +41,27 @@ class PostRequests:
         # превращаем данные в словарь
         data = self.parse_wsgi_input_data(data)
         return data
+
+
+class GetRequests:
+    """get requests"""
+
+    @staticmethod
+    def parse_input_data(data: str):
+        result = {}
+        if data:
+            # делим параметры через &
+            params = data.split('&')
+            for item in params:
+                # делим ключ и значение через =
+                k, v = item.split('=')
+                result[k] = v
+        return result
+
+    @staticmethod
+    def get_request_params(environ):
+        # получаем параметры запроса
+        query_string = environ['QUERY_STRING']
+        # превращаем параметры в словарь
+        request_params = GetRequests.parse_input_data(query_string)
+        return request_params
