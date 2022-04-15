@@ -1,6 +1,8 @@
 """urls"""
 from datetime import date
-from views import Index, Admin, Recipes, Products, Sport, Delivery, Profile, SendRecipe, Register
+from views import Index, Admin, Recipes, Products, Sport, Delivery, \
+    Profile, SendRecipe, Register, DishesList, \
+    CreateDish, CreateCategory, CategoryList, CopyDish
 
 
 def secret_front(request):
@@ -25,4 +27,10 @@ routes = {
     '/profile/': Profile(),
     '/send_recipe/': SendRecipe(),
     '/register/': Register(),
+
+    '/dishes_list/': DishesList(),
+    '/create_dish/': CreateDish(),
+    '/create_category/': CreateCategory(),
+    '/category_list/': CategoryList(),
+    '/copy_dish/': CopyDish()
 }
