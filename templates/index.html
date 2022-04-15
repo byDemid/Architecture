@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}
+Моё - Твоё Питание
+{% endblock %}
+{% block style %}
+{% include "inc_style.html" %}
+{% endblock %}
+{% block menu %}
+<div class="top__block">
+    <div class="container top__box">
+
+        {% include "inc_menu.html" %}
+
+        <div class=" top__info">
+            <h1 class="top__heading"><s>Моё</s> Твоё Питание </h1>
+            <p class="text heading1_text">Все о питании! Делимся рецептами. Узнаем новое о мире нутрициологии.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block body %}
+{% include "inc_index_body.html" %}
+{% endblock %}
+
+{% block footer %}
+{% include "inc_footer.html" %}
+{% endblock %}

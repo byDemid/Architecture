@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}
+Блюда
+{% endblock %}
+{% block style %}
+{% include "inc_style.html" %}
+{% endblock %}
+
+{% block menu %}
+<div class="top__block__menu">
+    <div class="container top__box">
+        {% include "inc_menu.html" %}
+    </div>
+</div>
+{% endblock %}
+
+
+{% block body %}
+<div>
+    <a href="/recipes/">назад к рицептам</a>
+</div>
+
+<br>
+<br>
+
+<div>
+    <a href="/create_dish/?id={{id}}">Создать новое блюдо</a>
+    <br>
+    <h1>Список блюд для категории "{{name}}"</h1>
+    {% for item in objects_list %}
+    <li>
+        {{item.name}} <span><a href="/copy_dish/?name={{item.name}}">скопировать</a></span>
+    </li>
+    {% endfor %}
+</div>
+{% endblock %}
