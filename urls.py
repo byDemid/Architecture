@@ -7,7 +7,7 @@ from views import Index, Admin, Recipes, Products, Sport, Delivery, \
 
 def secret_front(request):
     """front controller"""
-    request['data'] = date.today()
+    request['date'] = date.today()
 
 
 def other_front(request):
@@ -17,20 +17,20 @@ def other_front(request):
 
 fronts = [secret_front, other_front]
 
-routes = {
-    '/': Index(),
-    '/admin/': Admin(),
-    '/recipes/': Recipes(),
-    '/products/': Products(),
-    '/sport/': Sport(),
-    '/delivery/': Delivery(),
-    '/profile/': Profile(),
-    '/send_recipe/': SendRecipe(),
-    '/register/': Register(),
-
-    '/dishes_list/': DishesList(),
-    '/create_dish/': CreateDish(),
-    '/create_category/': CreateCategory(),
-    '/category_list/': CategoryList(),
-    '/copy_dish/': CopyDish()
-}
+# routes = {
+#     '/': Index(),
+#     '/admin/': Admin(),
+#     '/recipes/': Recipes(),
+#     '/products/': Products(),
+#     '/sport/': Sport(),
+#     '/delivery/': Delivery(),
+#     '/profile/': Profile(),
+#     '/send_recipe/': SendRecipe(),
+#     '/register/': Register(),
+#
+#     '/dishes_list/': DishesList(),
+#     '/create_dish/': CreateDish(),
+#     '/create_category/': CreateCategory(),
+#     '/category_list/': CategoryList(),
+#     '/copy_dish/': CopyDish()
+# }
