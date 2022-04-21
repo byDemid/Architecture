@@ -21,7 +21,6 @@ class PostRequests:
         # получаем длину тела
         content_length_data = environ.get('CONTENT_LENGTH')
         content_length = int(content_length_data) if content_length_data else 0
-        print(f'ддлина - {content_length}')
         # считываем данные, если они есть
         data = environ['wsgi.input'].read(content_length) if content_length > 0 else b''
         return data

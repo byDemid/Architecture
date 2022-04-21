@@ -1,84 +1,98 @@
 """views"""
+from datetime import date
+
 from architecture_framework.templator import render
+from patterns.structural_patterns import AppRoute, Debug
 from patterns.сreational_patterns import Engine, Logger
 
 site = Engine()
 logger = Logger('main')
 
+routes = {}
 
+@AppRoute(routes=routes, url='/')
 class Index:
     """Главная"""
-
+    @Debug(name='Index')
     def __call__(self, request):
-        return '200 OK', render('index.html', data=request.get('data', None))
+        return '200 OK', render('index.html', data=request.get('date', None))
 
 
+@AppRoute(routes=routes, url='/admin/')
 class Admin:
     """Админка"""
-
+    @Debug(name='Admin')
     def __call__(self, request):
         return '200 OK', 'admin'
 
 
+@AppRoute(routes=routes, url='/register/')
 class Register:
     """Регистрация"""
-
+    @Debug(name='Register')
     def __call__(self, request):
         return '200 OK', 'register'
 
 
+@AppRoute(routes=routes, url='/products/')
 class Products:
     """Продукты"""
-
+    @Debug(name='Products')
     def __call__(self, request):
         return '200 OK', 'products'
 
 
+@AppRoute(routes=routes, url='/send_recipe/')
 class SendRecipe:
     """Отправить рецепт"""
-
+    @Debug(name='SendRecipe')
     def __call__(self, request):
         return '200 OK', render('send_recipe.html')
 
 
+@AppRoute(routes=routes, url='/recipes/')
 class Recipes:
     """Рецепты"""
-
+    @Debug(name='Recipes')
     def __call__(self, request):
         return '200 OK', render('recipes.html', objects_list=site.categories)
 
 
+@AppRoute(routes=routes, url='/sport/')
 class Sport:
     """Спорт"""
-
+    @Debug(name='Sport')
     def __call__(self, request):
         return '200 OK', 'sport'
 
 
+@AppRoute(routes=routes, url='/delivery/')
 class Delivery:
     """Доставка"""
-
+    @Debug(name='Delivery')
     def __call__(self, request):
         return '200 OK', 'delivery'
 
 
+@AppRoute(routes=routes, url='/profile/')
 class Profile:
     """Профиль"""
-
+    @Debug(name='Profile')
     def __call__(self, request):
         return '200 OK', 'profile'
 
 
 class NotFound404:
     """PAGE Not Found"""
-
+    @Debug(name='NotFound404')
     def __call__(self, request):
         return '404 WHAT', '404 PAGE Not Found'
 
 
+@AppRoute(routes=routes, url='/dishes_list/')
 class DishesList:
     """контроллер - список блюд"""
-
+    @Debug(name='DishesList')
     def __call__(self, request):
         logger.log('Список блюд')
         try:
@@ -91,10 +105,12 @@ class DishesList:
             return '200 OK', 'No dishes have been added yet'
 
 
+@AppRoute(routes=routes, url='/create_dish/')
 class CreateDish:
     """контроллер - создать блюдо"""
     category_id = -1
 
+    @Debug(name='CreateDish')
     def __call__(self, request):
         if request['method'] == 'POST':
             # метод пост
@@ -107,7 +123,7 @@ class CreateDish:
             if self.category_id != -1:
                 category = site.find_category_by_id(int(self.category_id))
 
-                dish = site.create_dish('record', name, category)
+                dish = site.create_dish('keto', name, category)
                 site.dishes.append(dish)
 
             return '200 OK', render('dish_list.html',
@@ -125,9 +141,10 @@ class CreateDish:
                 return '200 OK', 'No categories have been added yet'
 
 
+@AppRoute(routes=routes, url='/create_category/')
 class CreateCategory:
     """контроллер - создать категорию"""
-
+    @Debug(name='CreateCategory')
     def __call__(self, request):
 
         if request['method'] == 'POST':
@@ -154,17 +171,19 @@ class CreateCategory:
             return '200 OK', render('create_category.html', categories=categories)
 
 
+@AppRoute(routes=routes, url='/category_list/')
 class CategoryList:
     """контроллер - список категорий"""
-
+    @Debug(name='CategoryList')
     def __call__(self, request):
         logger.log('Список категорий')
         return '200 OK', render('category_list.html', objects_list=site.categories)
 
 
+@AppRoute(routes=routes, url='/copy_dish/')
 class CopyDish:
     """контроллер - копировать блюда"""
-
+    @Debug(name='CopyDish')
     def __call__(self, request):
         request_params = request['request_params']
 

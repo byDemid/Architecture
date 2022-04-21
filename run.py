@@ -1,7 +1,8 @@
 """run"""
 from wsgiref.simple_server import make_server
 from architecture_framework.main import Architecture
-from urls import routes, fronts
+from urls import fronts
+from views import routes
 
 application = Architecture(routes, fronts)
 
