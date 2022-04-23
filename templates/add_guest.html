@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}
+Добавление пользователя на тренировку
+{% endblock %}
+{% block style %}
+{% include "inc_style.html" %}
+{% endblock %}
+{% block menu %}
+<div class="top__block__menu">
+    <div class="container top__box">
+        {% include "inc_menu.html" %}
+    </div>
+</div>
+{% endblock %}
+
+{% block body %}
+	<div>
+		<li>
+			<a href="/guest_list/">Список пользователей</a>
+		</li>
+		<li>
+			<a href="/create_guest/">Зарегестрировать пользователя </a>
+		</li>
+	</div>
+    <h1>Добавление пользователя на тренировку</h1>
+    <form method="post">
+        <select size="3" name="training_name">
+            {% for item in training %}
+            <option value="{{item.name}}">{{item.name}}</option>
+            {% endfor %}
+        </select>
+        <select size="3" name="guest_name">
+            {% for item in guests %}
+            <option value="{{item.name}}">{{item.name}}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Записать</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}
+Создание пользователя
+{% endblock %}
+{% block style %}
+{% include "inc_style.html" %}
+{% endblock %}
+{% block menu %}
+<div class="top__block__menu">
+    <div class="container top__box">
+        {% include "inc_menu.html" %}
+    </div>
+</div>
+{% endblock %}
+{% block body %}
+	<div>
+		<li>
+			<a href="/guest_list/">Список пользователей</a>
+		</li>
+		<li>
+			<a href="/add_guest/">Добавить пользователя на тренировку</a>
+		</li>
+	</div>
+    <div>
+        <h1>Создание пользователя</h1>
+        <form method="post">
+            <input type="text" name="name" placeholder="Имя">
+            <button type="submit">Сохранить</button>
+        </form>
+    </div>
+{% endblock %}

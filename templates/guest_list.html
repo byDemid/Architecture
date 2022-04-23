@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}
+Список пользователей
+{% endblock %}
+{% block style %}
+{% include "inc_style.html" %}
+{% endblock %}
+{% block menu %}
+<div class="top__block__menu">
+    <div class="container top__box">
+        {% include "inc_menu.html" %}
+    </div>
+</div>
+{% endblock %}
+{% block body %}
+	<div>
+		<li>
+			<a href="/create_guest/">Зарегестрировать пользователя </a>
+		</li>
+		<li>
+			<a href="/add_guest/">Добавить пользователя на тренировку</a>
+		</li>
+	</div>
+    <h1>Список пользователей</h1>
+    <div>
+        {% for item in objects_list %}
+        <li>
+            {{item.name}}
+            {% for workout in item.training%}
+                {{workout.name}}
+            {% endfor %}
+        </li>
+        {% endfor %}
+    </div>
+{% endblock %}
