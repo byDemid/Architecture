@@ -2,10 +2,14 @@
 import copy
 import quopri
 
+from patterns.behavioral_patterns import Subject, ConsoleWriter
+
 
 class User:
     """Абстрактный пользователь"""
-    pass
+
+    def __init__(self, name):
+        self.name = name
 
 
 class Moderator(User):
@@ -15,7 +19,10 @@ class Moderator(User):
 
 class Guest(User):
     """Гость"""
-    pass
+
+    def __init__(self, name):
+        self.training = []
+        super().__init__(name)
 
 
 class UserFactory:
@@ -26,9 +33,9 @@ class UserFactory:
     }
 
     @classmethod
-    def create(cls, type_):
+    def create(cls, type_, name):
         """порождающий паттерн Фабричный метод"""
-        return cls.types[type_]()
+        return cls.types[type_](name)
 
 
 class DishPrototype:
@@ -40,7 +47,6 @@ class DishPrototype:
 
 
 class Dish(DishPrototype):
-
     def __init__(self, name, category):
         self.name = name
         self.category = category
@@ -72,7 +78,6 @@ class DishFactory:
 
 class Category:
     """Категория"""
-
     auto_id = 0
 
     def __init__(self, name, category):
@@ -90,6 +95,73 @@ class Category:
         return result
 
 
+class TrainingPrototype:
+    """Порождающий паттерн Прототип - тренировка"""
+
+    def clone(self):
+        """ прототип тренировок"""
+        return copy.deepcopy(self)
+
+
+class Training(TrainingPrototype, Subject):
+    def __init__(self, name, categories_training):
+        self.name = name
+        self.categories_training = categories_training
+        self.categories_training.training.append(self)
+        self.guests = []
+        super().__init__()
+
+    def __getitem__(self, item):
+        return self.guests[item]
+
+    def add_guest(self, guest: Guest):
+        self.guests.append(guest)
+        guest.training.append(self)
+        self.notify()
+
+
+class InteractiveTraining(Training):
+    """Интерактивный"""
+    pass
+
+
+class RecordTraining(Training):
+    """В записи"""
+    pass
+
+
+class TrainingFactory:
+    """Порождающий паттерн Абстрактная фабрика - фабрика тренировок"""
+    types = {
+        'interactive': InteractiveTraining,
+        'record': RecordTraining
+    }
+
+    @classmethod
+    def create(cls, type_, name, categories_training):
+        """порождающий паттерн Фабричный метод"""
+        return cls.types[type_](name, categories_training)
+
+
+class CategoryTraining:
+    """Категория Тренировок"""
+    auto_id = 0
+
+    def __init__(self, name, categories_training):
+        self.id = CategoryTraining.auto_id
+        CategoryTraining.auto_id += 1
+        self.name = name
+        self.categories_training = categories_training
+        self.training = []
+
+    def training_count(self):
+        """количество тренировок"""
+        result = len(self.training)
+        if self.categories_training:
+            result += self.categories_training.training_count()
+        return result
+
+
 class Engine:
     """Основной интерфейс проекта"""
 
@@ -98,10 +170,12 @@ class Engine:
         self.guests = []
         self.dishes = []
         self.categories = []
+        self.categories_training = []
+        self.training = []
 
     @staticmethod
-    def create_user(type_):
-        return UserFactory.create(type_)
+    def create_user(type_, name):
+        return UserFactory.create(type_, name)
 
     @staticmethod
     def create_category(name, category=None):
@@ -109,6 +183,17 @@ class Engine:
 
     def find_category_by_id(self, id):
         for item in self.categories:
+            print('item', item.id)
+            if item.id == id:
+                return item
+        raise Exception(f'Нет категории с id = {id}')
+
+    @staticmethod
+    def create_category_training(name, category=None):
+        return CategoryTraining(name, category)
+
+    def find_category_training_by_id(self, id):
+        for item in self.categories_training:
             print('item', item.id)
             if item.id == id:
                 return item
@@ -123,6 +208,21 @@ class Engine:
             if item.name == name:
                 return item
         return None
+
+    @staticmethod
+    def create_training(type_, name, category):
+        return TrainingFactory.create(type_, name, category)
+
+    def get_training(self, name) -> Training:
+        for item in self.training:
+            if item.name == name:
+                return item
+        return None
+
+    def get_guest(self, name) -> Guest:
+        for item in self.guests:
+            if item.name == name:
+                return item
 
     @staticmethod
     def decode_value(val):
@@ -153,9 +253,11 @@ class SingletonByName(type):
 
 class Logger(metaclass=SingletonByName):
 
-    def __init__(self, name):
+    def __init__(self, name, writer=ConsoleWriter()):
         self.name = name
+        self.writer = writer
 
     @staticmethod
-    def log(text):
-        print('log--->', text)
+    def log(self, text):
+        text = f'log---> {text}'
+        self.writer.write(text)

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}
+Тренеровки
+{% endblock %}
+{% block style %}
+{% include "inc_style.html" %}
+{% endblock %}
+
+{% block menu %}
+<div class="top__block__menu">
+    <div class="container top__box">
+        {% include "inc_menu.html" %}
+    </div>
+</div>
+{% endblock %}
+
+
+{% block body %}
+<div>
+    <a href="/sport/">назад к категориям</a>
+</div>
+
+<br>
+<br>
+
+<div>
+    <a href="/create_training/?id={{id}}">Создать новую тренировку</a>
+    <br>
+    <h1>Список тренировок для категории "{{name}}"</h1>
+    {% for item in objects_list %}
+    <li>
+        {{item.name}} <span><a href="/copy_training/?name={{item.name}}">скопировать</a></span>
+    </li>
+    {% endfor %}
+</div>
+{% endblock %}
