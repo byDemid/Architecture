@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}
+Список тренировко
+{% endblock %}
+{% block style %}
+{% include "inc_style.html" %}
+{% endblock %}
+
+{% block menu %}
+<div class="top__block__menu">
+    <div class="container top__box">
+        {% include "inc_menu.html" %}
+    </div>
+</div>
+{% endblock %}
+
+
+{% block body %}
+<a href="/sport/">назад</a>
+
+<h1>Список категорий</h1>
+<ul>
+
+    {% for item in objects_list %}
+    <li>
+        {{item.name}} <span>Количество тренировок: {{item.training_count()}}</span>
+    </li>
+    {% endfor %}
+</ul>
+
+<div>
+    <li><a href="/training_list/">Список тренировок</a></li>
+    <li><a href="/create_training/">Создать тренировку</a></li>
+</div>
+{% endblock %}
