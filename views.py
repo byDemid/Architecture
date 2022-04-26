@@ -1,15 +1,18 @@
 """views"""
 from datetime import date
 from architecture_framework.templator import render
-from patterns.behavioral_patterns import EmailNotifier,\
+from patterns.architectural_system_pattern_unit_of_work import UnitOfWork
+from patterns.behavioral_patterns import EmailNotifier, \
     SmsNotifier, ListView, CreateView, BaseSerializer
 from patterns.structural_patterns import AppRoute, Debug
-from patterns.сreational_patterns import Engine, Logger
+from patterns.сreational_patterns import Engine, Logger, MapperRegistry
 
 site = Engine()
 logger = Logger('main')
 email_notifier = EmailNotifier()
 sms_notifier = SmsNotifier()
+UnitOfWork.new_current()
+UnitOfWork.get_current().set_mapper_registry(MapperRegistry)
 
 routes = {}
 
@@ -219,6 +222,8 @@ class CopyDish:
             return '200 OK', 'No dishes have been added yet'
 
 
+# Тренировки
+
 @AppRoute(routes=routes, url='/training_list/')
 class TrainingList:
     """контроллер - список тренировок"""
@@ -301,6 +306,7 @@ class CategoryTrainingList:
         logger.log('Список категорий')
         return '200 OK', render('category_training_list.html', objects_list=site.categories_training)
 
+
 @AppRoute(routes=routes, url='/copy_training/')
 class CopyTraining:
     """контроллер - копировать блюда"""
@@ -325,8 +331,12 @@ class CopyTraining:
 
 @AppRoute(routes=routes, url='/guest_list/')
 class GuestListView(ListView):
-    queryset = site.guests
+    # queryset = site.guests
     template_name = 'guest_list.html'
+
+    def get_queryset(self):
+        mapper = MapperRegistry.get_current_mapper('guest')
+        return mapper.all()
 
 
 @AppRoute(routes=routes, url='/create_guest/')
@@ -338,6 +348,8 @@ class GuestCreateView(CreateView):
         name = site.decode_value(name)
         new_obj = site.create_user('guest', name)
         site.guests.append(new_obj)
+        new_obj.mark_new()
+        UnitOfWork.get_current().commit()
 
 
 @AppRoute(routes=routes, url='/add_guest/')
